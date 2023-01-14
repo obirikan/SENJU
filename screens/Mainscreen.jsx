@@ -1,13 +1,69 @@
-import { useState,useRef } from 'react'
+import { useState,useRef ,useEffect} from 'react'
 import { View, Text,ScrollView,SafeAreaView,TextInput,StyleSheet, TouchableOpacity,KeyboardAvoidingView,Platform} from 'react-native'
 import React from 'react'
+import { Ionicons } from '@expo/vector-icons';
+import Config from '../config/Config'
+import axios from 'axios';
 
 const Mainscreen = () => {
     const [headerShown, setHeaderShown] = useState(false);
+    const [data,setdata]=useState([        {
+        name:'ko',
+        response:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit sapiente, excepturi laudantium debitis, ab similique, consequuntur architecto fugiat velit enim est iure aliquam magni quam molestias cum at et natus'
+     },
+     {
+        name:'ko',
+        response:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit sapiente, excepturi laudantium debitis, ab similique, consequuntur architecto fugiat velit enim est iure aliquam magni quam molestias cum at et natus'
+     },
+     {
+        name:'ko',
+        response:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit sapiente, excepturi laudantium debitis, ab similique, consequuntur architecto fugiat velit enim est iure aliquam magni quam molestias cum at et natus'
+     },
+     {
+        name:'ko',
+        response:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit sapiente, excepturi laudantium debitis, ab similique, consequuntur architecto fugiat velit enim est iure aliquam magni quam molestias cum at et natus'
+     },
+     {
+        name:'ko',
+        response:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit sapiente, excepturi laudantium debitis, ab similique, consequuntur architecto fugiat velit enim est iure aliquam magni quam molestias cum at et natus'
+     },])
     const scrollViewRef = useRef();
     const [number, onChangeNumber] = React.useState('');
+   console.log(Config)
+    const add=()=>{
+      const newdata={name:'kan',response:number}
+      setdata([...data,newdata])
+// Define endpoint URL here
+const endpointUrl = "https://api.openai.com/v1/completions";
 
+// Define Header Parameters here
+const headerParameters = {
+  "Authorization": `Bearer ${Config.API_KEY}`,
+  "Content-Type": "application/json"
+};
 
+// Body Parameters
+const bodyParameters = JSON.stringify({
+  model: "text-davinci-002",
+  prompt: number,
+  temperature: 0.9
+});
+
+// Setting API call options
+const options = {
+  method: "POST",
+  headers: headerParameters,
+  body: bodyParameters
+};
+
+      axios(endpointUrl,options).then((res)=>{
+        console.log(res)
+      })
+    }
+
+   useEffect(() => {
+
+   }, [data])
   return (
     <SafeAreaView
      style={{flexDirection:'column',flex:1}}
@@ -24,14 +80,14 @@ ref={scrollViewRef}
 onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
 style={{flex:2,paddingBottom:70}}
 >
-    <View style={{flex:0.5,padding:20}}>
-       <View style={{backgroundColor:'blue',width:50,justifyContent:'center',alignItems:'center',padding:10,borderRadius:4}}><Text style={{fontSize:25}}>K</Text></View>
-       <View style={{backgroundColor:'grey',marginTop:5,padding:20,borderRadius:10}}><Text style={{fontSize:22}}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit sapiente, excepturi laudantium debitis, ab similique, consequuntur architecto fugiat velit enim est iure aliquam magni quam molestias cum at et natus!</Text></View>
+    {
+        data.map((d)=>(
+    <View style={{flex:0.5,padding:20}} key={d.id}>
+       <View style={{backgroundColor:'blue',width:50,justifyContent:'center',alignItems:'center',padding:10,borderRadius:4}}><Text style={{fontSize:25}}>{d.name}</Text></View>
+       <View style={{backgroundColor:'grey',marginTop:5,padding:20,borderRadius:10}}><Text style={{fontSize:22}}>{d.response}</Text></View>
     </View>
-    <View style={{flex:0.5,padding:20}}>
-       <View style={{backgroundColor:'blue',width:50,justifyContent:'center',alignItems:'center',padding:10,borderRadius:4}}><Text style={{fontSize:25}}>K</Text></View>
-       <View style={{backgroundColor:'grey',marginTop:5,padding:20,borderRadius:10}}><Text style={{fontSize:22}}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit sapiente, excepturi laudantium debitis, ab similique, consequuntur architecto fugiat velit enim est iure aliquam magni quam molestias cum at et natus!</Text></View>
-    </View>
+        ))
+    }
 
 </ScrollView>
     <View style={{flex:0.1,backgroundColor:'#0d1b2a',flexDirection:'row',padding:10,justifyContent:'space-around',padding:10}}>
@@ -41,8 +97,8 @@ style={{flex:2,paddingBottom:70}}
         value={number}
         placeholder="useless placeholder"
       />
-      <TouchableOpacity style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-         <Text>send</Text>
+      <TouchableOpacity style={{display:'flex',justifyContent:'center',alignItems:'center'}} onPress={()=>add()}>
+        <Ionicons name={'send-sharp'} size={20} color={'white'} />
       </TouchableOpacity>
     </View>
     </KeyboardAvoidingView>
