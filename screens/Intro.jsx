@@ -1,5 +1,5 @@
-import { View, Text,StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text,StyleSheet,Animated } from 'react-native'
+import React,{useRef}from 'react'
 
 const Intro = () => {
   return (
