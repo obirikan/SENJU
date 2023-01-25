@@ -3,7 +3,6 @@ import { View, Text,ScrollView,SafeAreaView,TextInput,StyleSheet, TouchableOpaci
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import Config from '../config/Config'
-import axios from 'axios';
 
 const Mainscreen = () => {
     const [headerShown, setHeaderShown] = useState(false);
@@ -29,36 +28,42 @@ const Mainscreen = () => {
      },])
     const scrollViewRef = useRef();
     const [number, onChangeNumber] = React.useState('');
-   console.log(Config)
-    const add=()=>{
-      const newdata={name:'kan',response:number}
-      setdata([...data,newdata])
+
+
+
+// Function to make API call
+const  generateCompletion= async ()=> {
+  const newdata={name:'kan',response:number}
+  setdata([...data,newdata])
 // Define endpoint URL here
 const endpointUrl = "https://api.openai.com/v1/completions";
 
 // Define Header Parameters here
 const headerParameters = {
-  "Authorization": `Bearer ${Config.API_KEY}`,
-  "Content-Type": "application/json"
+"Authorization": `Bearer ${Config.API_KEY}`,
+"Content-Type": "application/json"
 };
 
-// Body Parameters
 const bodyParameters = JSON.stringify({
-  model: "text-davinci-002",
-  prompt: number,
-  temperature: 0.9
+model: "text-davinci-002",
+prompt: "Brainstorm some ideas combining deep learning and images:\n",
+
 });
 
 // Setting API call options
 const options = {
-  method: "POST",
-  headers: headerParameters,
-  body: bodyParameters
+method: "POST",
+headers: headerParameters,
+body: bodyParameters
 };
-
-      axios(endpointUrl,options).then((res)=>{
-        console.log(res)
-      })
+ try{
+    const response = await fetch(endpointUrl, options);
+    // Printing response
+    console.log(response);
+  } catch (error) {
+    // Printing error message
+    console.log(error);
+  }
     }
 
    useEffect(() => {
@@ -97,7 +102,7 @@ style={{flex:2,paddingBottom:70}}
         value={number}
         placeholder="useless placeholder"
       />
-      <TouchableOpacity style={{display:'flex',justifyContent:'center',alignItems:'center'}} onPress={()=>add()}>
+      <TouchableOpacity style={{display:'flex',justifyContent:'center',alignItems:'center'}} onPress={()=> generateCompletion()}>
         <Ionicons name={'send-sharp'} size={20} color={'white'} />
       </TouchableOpacity>
     </View>
