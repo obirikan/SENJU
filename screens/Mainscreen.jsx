@@ -3,7 +3,6 @@ import { View, Text,ScrollView,SafeAreaView,TextInput,StyleSheet, TouchableOpaci
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import Config from '../config/Config'
-import axios from 'axios';
 
 const Mainscreen = () => {
     const [headerShown, setHeaderShown] = useState(false);
@@ -48,11 +47,6 @@ const headerParameters = {
 const bodyParameters = JSON.stringify({
 model: "text-davinci-002",
 prompt: "Brainstorm some ideas combining deep learning and images:\n",
-temperature: 0.75,
-max_tokens: 200,
-top_p: 1.0,
-frequency_penalty: 1,
-presence_penalty: 1
 });
 
 // Setting API call options
@@ -61,6 +55,7 @@ method: "POST",
 headers: headerParameters,
 body: bodyParameters
 };
+
  await axios.post(endpointUrl,bodyParameters,headerParameters)
  .then((res)=>{
   console.log(res.data)
