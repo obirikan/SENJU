@@ -47,7 +47,6 @@ const headerParameters = {
 const bodyParameters = JSON.stringify({
 model: "text-davinci-002",
 prompt: "Brainstorm some ideas combining deep learning and images:\n",
-
 });
 
 // Setting API call options
@@ -56,14 +55,14 @@ method: "POST",
 headers: headerParameters,
 body: bodyParameters
 };
- try{
-    const response = await fetch(endpointUrl, options);
-    // Printing response
-    console.log(response);
-  } catch (error) {
-    // Printing error message
-    console.log(error);
-  }
+
+ await axios.post(endpointUrl,bodyParameters,headerParameters)
+ .then((res)=>{
+  console.log(res.data)
+ })
+ .catch((err)=>{
+    console.log(err);
+ })
     }
 
    useEffect(() => {
