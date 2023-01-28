@@ -35,34 +35,6 @@ const Mainscreen = () => {
 const  generateCompletion= async ()=> {
   const newdata={name:'kan',response:number}
   setdata([...data,newdata])
-// Define endpoint URL here
-const endpointUrl = "https://api.openai.com/v1/completions";
-
-// Define Header Parameters here
-const headerParameters = {
-"Authorization": `Bearer ${Config.API_KEY}`,
-"Content-Type": "application/json"
-};
-
-const bodyParameters = JSON.stringify({
-model: "text-davinci-002",
-prompt: "Brainstorm some ideas combining deep learning and images:\n",
-});
-
-// Setting API call options
-const options = {
-method: "POST",
-headers: headerParameters,
-body: bodyParameters
-};
-
- await axios.post(endpointUrl,bodyParameters,headerParameters)
- .then((res)=>{
-  console.log(res.data)
- })
- .catch((err)=>{
-    console.log(err);
- })
     }
 
    useEffect(() => {
