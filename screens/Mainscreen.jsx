@@ -32,10 +32,7 @@ const Mainscreen = () => {
 
 
 // Function to make API call
-const  generateCompletion= async ()=> {
-  const newdata={name:'kan',response:number}
-  setdata([...data,newdata])
-    }
+
 
    useEffect(() => {
 
